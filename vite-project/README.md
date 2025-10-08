@@ -42,9 +42,30 @@ address-book/
 
 ```mermaid
 graph TD
-    A[App.jsx] --> B[Layout]
-    B --> C[Header]
-    B --> D[TodoList]
-    D --> E[TodoItem × N]
-    D --> F[useTodos — Custom Hook]
-    
+    A[App.jsx] --> B[AddForm.jsx]
+    A --> C[SearchBar.jsx]
+    A --> D[AddressTable.jsx]
+```    
+---
+## 🔄 Data Flow Diagram (DFD) — Address Book
+
+```mermaid
+flowchart LR
+    User["User<br/>введення / пошук / редагування контактів"]
+    AddForm["AddForm.jsx<br/>форма додавання нового контакту з валідацією"]
+    SearchBar["SearchBar.jsx<br/>поле пошуку за ім’ям, прізвищем або телефоном"]
+    AddressTable["AddressTable.jsx<br/>таблиця / список контактів"]
+    State["App.jsx<br/>стан застосунку: books[], searchTerm"]
+
+    User -->|"вводить дані контакту"| AddForm
+    User -->|"виконує пошук"| SearchBar
+    User -->|"редагує або переглядає контакт"| AddressTable
+
+    AddForm -->|"валідація та передача нового запису"| State
+    SearchBar -->|"рядок пошуку"| State
+    AddressTable -->|"оновлення / видалення запису"| State
+
+    State -->|"оновлений список контактів"| AddressTable
+    AddressTable -->|"відображення / No data"| User
+```
+---
